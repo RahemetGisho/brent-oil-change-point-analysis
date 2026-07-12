@@ -1,0 +1,11 @@
+pandas
+numpy
+matplotlib
+statsmodels
+scipy
+pymc
+arviz
+jupyter
+nbformat
+nbconvert
+pytest
