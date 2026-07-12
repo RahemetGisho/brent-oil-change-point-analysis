@@ -20,5 +20,5 @@ Thumbs.db
 
 # Outputs
 *.pdf
-!reports/**/*.pdf
+data/
 reports/
