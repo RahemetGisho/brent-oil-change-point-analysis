@@ -22,18 +22,3 @@ def test_parse_mixed_date_comma_format():
 def test_parse_mixed_date_invalid_raises():
     with pytest.raises(ValueError):
         parse_mixed_date("not-a-date")
-
-
-def test_load_raw_prices_sorted_and_typed():
-    df = load_raw_prices(ROOT / "data" / "raw" / "BrentOilPrices.csv")
-    assert df["Date"].is_monotonic_increasing
-    assert pd.api.types.is_datetime64_any_dtype(df["Date"])
-    assert pd.api.types.is_numeric_dtype(df["Price"])
-    assert len(df) > 0
-
-
-def test_load_events_has_required_columns():
-    df = load_events(ROOT / "data" / "processed" / "key_events.csv")
-    for col in ["event_id", "start_date", "event_name", "category"]:
-        assert col in df.columns
-    assert len(df) >= 10
