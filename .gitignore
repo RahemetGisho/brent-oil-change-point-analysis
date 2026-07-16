@@ -22,3 +22,9 @@ Thumbs.db
 *.pdf
 data/
 reports/
+
+# Frontend
+frontend/
+
+# Backend
+backend/

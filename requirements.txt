@@ -9,3 +9,6 @@ jupyter
 nbformat
 nbconvert
 pytest
+flask>=3.1
+flask-cors>=5.0
+gunicorn>=22.0
