@@ -1,47 +1,60 @@
 # Brent Oil Price Change Point Analysis
 
-Bayesian change point analysis of Brent crude oil prices (1987–2022), studying how major geopolitical events, conflicts, sanctions, and OPEC policy decisions relate to structural shifts in the market. Built for Birhan Energies to support investment, policy, and operational decision-making.
+Bayesian change-point analysis of Brent crude oil prices (1987–2022) — identifying structural breaks in the market and testing how closely they align with major conflicts, sanctions, and OPEC decisions. Includes a Flask + React dashboard for exploring the results interactively.
 
 ## Project Structure
 
 ```
-├── .github/workflows/      # CI: unit tests on push/PR
-├── .vscode/
-├── data/
-├── notebooks/
-├── reports/                # Task 1 & 2 reports + figures
-├── src/
-├── tests/                  # unit tests (pytest)
-├── scripts/                # CLI entry points (later tasks)
-└── requirements.txt
+├── data/                    # raw + cleaned prices, compiled event calendar
+├── notebooks/               # eda.ipynb, change_point_model.ipynb
+├── src/                     # data loading, EDA, PyMC change-point models
+├── tests/                   # pytest
+├── reports/                 # Word reports
+└── dashboard/
+    ├── backend/              # Flask REST API
+    └── frontend/             # React + Recharts SPA
 ```
 
-## Setup
+## Quickstart
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+git clone https://github.com/RahemetGisho/brent-oil-change-point-analysis.git
+cd brent-oil-change-point-analysis
+python -m venv .venv && .venv/Scripts/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Usage
+**Run the analysis:**
 
 ```bash
-jupyter notebook notebooks/eda.ipynb              # exploratory data analysis
-jupyter notebook notebooks/change_point_model.ipynb # Bayesian change point modeling
-pytest tests/ -v                                       # run tests
+jupyter notebook notebooks/eda.ipynb                 # exploratory analysis
+jupyter notebook notebooks/change_point_model.ipynb  # Bayesian change-point modeling
+pytest tests/ -v                                        # 12 tests
 ```
 
-## Data
+**Run the dashboard** (needs two terminals):
 
-- `data/raw/BrentOilPrices.csv` — daily Brent prices (USD/barrel), 20 May 1987 – 14 Nov 2022.
-- `data/processed/key_events.csv` — 17 major events (conflicts, OPEC/OPEC+ decisions, sanctions, economic shocks) with approximate dates, for comparison against detected change points.
+```bash
+# Terminal 1 — backend
+cd dashboard/backend
+pip install -r requirements.txt
+python app/data/build_data_artifacts.py   # generates data the API serves (~1 min)
+python run.py                              # http://localhost:5001
 
-## Methodology
+# Terminal 2 — frontend
+cd dashboard/frontend
+npm install
+cp .env.example .env
+npm run dev                                # http://localhost:5173
+```
 
-1. Load & clean price data (mixed date formats normalized).
-2. Exploratory analysis: trend, stationarity (ADF/KPSS), volatility clustering.
-3. Compile a structured event dataset.
-4. Fit Bayesian change point models (PyMC) — a mean-shift model on price level and a volatility-shift model on log returns — with a discrete-uniform prior over the switch point; sample via MCMC and check convergence (r_hat, trace plots).
-5. Cross-validate with an independent Markov-switching model (statsmodels).
-6. Compare posterior change-point dates against known events — as **temporal association**, not proof of causation.
+Open http://localhost:5173. Full dashboard details, API reference, and screenshots: [`dashboard/README.md`](dashboard/README.md).
+
+## Key Findings
+
+- Price levels are non-stationary (ADF p ≈ 0.29); log returns are stationary but fat-tailed with strong volatility clustering (2008–09, 2014–16, 2020).
+- **Mean-shift change point:** 23 Feb 2005 — average price $21.42 → $75.61/barrel (+253%), consistent with the 2003–2008 commodity supercycle.
+- **Volatility-shift change point:** 20 Aug 2008 — daily volatility 2.30% → 2.89% (+25%), closely preceding the Lehman Brothers collapse.
+- **Markov-switching cross-check:** independently recovers 11 turbulent windows, 3 matching compiled events to within 0–1 day (2008 GFC, 2020 Saudi-Russia price war, 2022 Ukraine invasion).
+
+Every finding is a **temporal association**, not proof of causation — see `reports/Final_Report_Brent_Oil_Change_Point_Analysis.docx` for the full writeup and caveats.
