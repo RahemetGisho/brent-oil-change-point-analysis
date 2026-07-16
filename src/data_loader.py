@@ -1,3 +1,14 @@
+"""
+data_loader.py
+
+Utilities for loading and cleaning the raw Brent oil price series.
+
+The raw BrentOilPrices.csv file mixes two date formats across its history
+('DD-Mon-YY' for the earlier rows and 'Mon DD, YYYY' for later rows), so a
+single pd.to_datetime call with a fixed format will fail on part of the file.
+parse_mixed_date handles both.
+"""
+
 from pathlib import Path
 import pandas as pd
 

@@ -1,3 +1,10 @@
+"""
+eda.py
+
+Time-series diagnostics for the Brent price series: log-return
+transformation, stationarity tests (ADF, KPSS), and rolling volatility.
+"""
+
 import numpy as np
 import pandas as pd
 from statsmodels.tsa.stattools import adfuller, kpss
