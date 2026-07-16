@@ -2,7 +2,7 @@
 
 A full-stack, production-structured dashboard for exploring how major
 geopolitical and economic events relate to structural breaks in Brent crude
-oil prices — built on top of the Task 1 (EDA + event research) and Task 2
+oil prices — built on top of the (EDA + event research) and
 (Bayesian change-point modeling) analysis in `../notebooks`.
 
 **Stack:** Flask REST API (`backend/`) + React/Recharts SPA (`frontend/`).
@@ -33,7 +33,7 @@ request — this is how you'd actually deploy an ML-backed dashboard.
 ```bash
 # Terminal 1 — backend
 cd dashboard/backend
-python -m venv .venv && source .venv/bin/activate
+python -m venv .venv && .venv/Scripts/activate
 pip install -r requirements.txt
 python app/data/build_data_artifacts.py   # generates the data artifacts (~1 min)
 python run.py                              # http://localhost:5001
