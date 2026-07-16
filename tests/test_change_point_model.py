@@ -6,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from change_point_model import (  # noqa: E402
+from src.change_point_model import (  # noqa: E402
     build_mean_shift_model,
     build_variance_shift_model,
     sample_model,

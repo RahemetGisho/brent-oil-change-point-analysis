@@ -6,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from data_loader import parse_mixed_date, load_raw_prices, load_events  # noqa: E402
+from src.data_loader import parse_mixed_date, load_raw_prices, load_events  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 

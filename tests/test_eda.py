@@ -6,7 +6,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from eda import add_returns, adf_test, kpss_test  # noqa: E402
+from src.eda import add_returns, adf_test, kpss_test  # noqa: E402
 
 
 def _toy_df():
